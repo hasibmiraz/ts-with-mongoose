@@ -1,14 +1,25 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-require("dotenv/config");
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: false }));
-const { URI } = process.env;
-const port = process.env.PORT || 5000;
+const app_1 = require("./app");
+const dbconnect_1 = require("./app/utils/dbconnect");
+const logger_1 = require("./app/utils/logger");
+const { PORT } = process.env;
+const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        app_1.app.listen(PORT, () => logger_1.log.info(`Starting server on port ${PORT}`));
+        (0, dbconnect_1.dbConnect)();
+    }
+    catch (error) {
+        logger_1.log.error(error.message);
+    }
+});
+startServer();
