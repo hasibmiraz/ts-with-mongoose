@@ -1,6 +1,6 @@
 import { app } from './app';
-import { dbConnect } from './utils/dbconnect';
-import { log } from './utils/logger';
+import { dbConnect } from './app/utils/dbconnect';
+import { log } from './app/utils/logger';
 const { PORT } = process.env;
 
 const startServer = async (): Promise<void> => {
